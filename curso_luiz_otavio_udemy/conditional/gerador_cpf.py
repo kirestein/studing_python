@@ -21,19 +21,38 @@ contrário disso:
 O primeiro dígito do CPF é 7
 """
 cpf ="746.824.890"
-count = 10
-total1 = 0
-for i in cpf:
-    if i == '.':
-        continue
-    valor = int(i)
-    total1 += (valor * count)
-    #print(f'{valor=} x {count=} = {count * valor}')
-    #print(total1)
-    count = count - 1
+def calcula_segundo_digito(cpf):
+    total = 0
+    count = 11
+    for i in cpf:
+        if i == '.' or i == '-':
+            continue
+        valor = int(i)
+        total += (valor * count)
+        count = count - 1
+    total *= 10
+    resto = total % 11
+    digito = resto if resto <= 9 else 0
+    new_cpf = cpf + str(digito)
+    print(f'{new_cpf=}')
+    return new_cpf
 
-resultado = total1 * 10
-resto = resultado % 11
-digito = 0 
-digito = resto if resto <= 9 else digito
-print(f'{digito=}')
+def calcula_primeiro_digito(cpf):
+    total1 = 0
+    count = 10
+    for i in cpf:
+        if i == '.':
+            continue
+        valor = int(i)
+        total1 += (valor * count)
+        count = count - 1
+    total1 = total1 * 10
+    resto = total1 % 11
+    digito = resto if resto <= 9 else 0
+    new_cpf = cpf + '-' + str(digito)
+    print(f'{new_cpf=}')
+    calcula_segundo_digito(new_cpf)
+calcula_primeiro_digito(cpf)
+
+
+
