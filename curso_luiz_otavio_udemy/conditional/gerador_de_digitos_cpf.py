@@ -22,7 +22,7 @@ O primeiro dígito do CPF é 7
 """
 import re
 
-cpf_recebido = input('Por favor, digite o seu cpf, sem os dois últimos digitos (xxx.xxx.xxx): ')
+# cpf_recebido = input('Por favor, digite o seu cpf, sem os dois últimos digitos (xxx.xxx.xxx): ')
 
 def tratar_cpf(cpf):
     cpf_tratado = re.sub(
@@ -62,12 +62,11 @@ def calcula_primeiro_digito(cpf):
     total *= 10
     resto = total % 11
     digito = resto if resto <= 9 else 0
-    new_cpf = cpf + str(digito)
-    print(f'{new_cpf=}')
     new_cpf = cpf + '-' + str(digito)
+    print(f'{new_cpf=}')
     calcula_segundo_digito(new_cpf)
     return new_cpf
-calcula_primeiro_digito(cpf_recebido)
+# calcula_primeiro_digito(cpf_recebido)
 
 
 
