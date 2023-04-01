@@ -25,12 +25,15 @@ import re
 # cpf_recebido = input('Por favor, digite o seu cpf, sem os dois últimos digitos (xxx.xxx.xxx): ')
 
 def tratar_cpf(cpf):
-    cpf_tratado = re.sub(
-        r'[^0-9]',
-        '',
-        cpf
-    )
-    return cpf_tratado
+    try:
+        cpf_tratado = re.sub(
+            r'[^0-9]',
+            '',
+            cpf
+        )
+        return cpf_tratado
+    except:
+        print(f'{cpf} não é um valor válido!')
 
 def loop_cpf(cpf, count):
     total = 0
@@ -54,18 +57,24 @@ def calcula_segundo_digito(cpf):
     return new_cpf
 
 def calcula_primeiro_digito(cpf):
-    if len(cpf) > 9:
-        cpf_tratado = tratar_cpf(cpf)
-    else:
-        cpf_tratado = cpf
-    total = loop_cpf(cpf_tratado, 10)
-    total *= 10
-    resto = total % 11
-    digito = resto if resto <= 9 else 0
-    new_cpf = cpf + '-' + str(digito)
-    print(f'{new_cpf=}')
-    calcula_segundo_digito(new_cpf)
-    return new_cpf
+    try:        
+        if len(cpf) > 9:
+            cpf_tratado = tratar_cpf(cpf)
+        else:
+            cpf_tratado = cpf
+        if len(cpf_tratado) != 9:
+            print(f'{cpf} não é um valor válido!')
+            return
+        total = loop_cpf(cpf_tratado, 10)
+        total *= 10
+        resto = total % 11
+        digito = resto if resto <= 9 else 0
+        new_cpf = cpf + '-' + str(digito)
+        print(f'{new_cpf=}')
+        calcula_segundo_digito(new_cpf)
+        return new_cpf
+    except:
+        print(f'{cpf} não está no formato solicitado!')
 # calcula_primeiro_digito(cpf_recebido)
 
 
