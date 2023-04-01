@@ -22,7 +22,7 @@ O primeiro dígito do CPF é 7
 """
 import re
 
-# cpf_recebido = input('Por favor, digite o seu cpf, sem os dois últimos digitos (xxx.xxx.xxx): ')
+# cpf_recebido = input('Por favor, digite o seu cpf, sem os dois últimos digitos (xxx.xxx.xxx): ') 
 
 def tratar_cpf(cpf):
     try:
