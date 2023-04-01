@@ -20,16 +20,32 @@ contrário disso:
     resultado é o valor da conta
 O primeiro dígito do CPF é 7
 """
-cpf ="746.824.890"
-def calcula_segundo_digito(cpf):
+import re
+
+cpf_recebido = input('Por favor, digite o seu cpf, sem os dois últimos digitos (xxx.xxx.xxx): ')
+
+def tratar_cpf(cpf):
+    cpf_tratado = re.sub(
+        r'[^0-9]',
+        '',
+        cpf
+    )
+    return cpf_tratado
+
+def loop_cpf(cpf, count):
     total = 0
-    count = 11
     for i in cpf:
-        if i == '.' or i == '-':
-            continue
         valor = int(i)
         total += (valor * count)
         count = count - 1
+    return total
+
+def calcula_segundo_digito(cpf):
+    if len(cpf) > 10:
+        cpf_tratado = tratar_cpf(cpf)
+    else:
+        cpf_tratado = cpf
+    total = loop_cpf(cpf_tratado, 11)
     total *= 10
     resto = total % 11
     digito = resto if resto <= 9 else 0
@@ -38,21 +54,20 @@ def calcula_segundo_digito(cpf):
     return new_cpf
 
 def calcula_primeiro_digito(cpf):
-    total1 = 0
-    count = 10
-    for i in cpf:
-        if i == '.':
-            continue
-        valor = int(i)
-        total1 += (valor * count)
-        count = count - 1
-    total1 = total1 * 10
-    resto = total1 % 11
+    if len(cpf) > 9:
+        cpf_tratado = tratar_cpf(cpf)
+    else:
+        cpf_tratado = cpf
+    total = loop_cpf(cpf_tratado, 10)
+    total *= 10
+    resto = total % 11
     digito = resto if resto <= 9 else 0
-    new_cpf = cpf + '-' + str(digito)
+    new_cpf = cpf + str(digito)
     print(f'{new_cpf=}')
+    new_cpf = cpf + '-' + str(digito)
     calcula_segundo_digito(new_cpf)
-calcula_primeiro_digito(cpf)
+    return new_cpf
+calcula_primeiro_digito(cpf_recebido)
 
 
 
