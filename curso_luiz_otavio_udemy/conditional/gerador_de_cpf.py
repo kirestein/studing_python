@@ -1,4 +1,4 @@
-from gerador_de_digitos_cpf import calcula_primeiro_digito
+from validador_cpf import calcula_primeiro_digito
 import random as rd
 
 def main():
@@ -9,5 +9,8 @@ def main():
             cpf += str(num)
         if len(cpf) < 11:
             cpf += '.'
+        if len(cpf) > 11:
+            cpf = ''
+            continue
     calcula_primeiro_digito(cpf)
 main()
