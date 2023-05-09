@@ -13,6 +13,16 @@ extrato = ""
 numero_saques = 0
 LIMITE_SAQUES = 3
 
+def sacar(valor):
+    pass
+
+def depositar(valor):
+    pass
+
+def extrato():
+    pass
+
+
 while True:
     option = input(menu).lower()
     
