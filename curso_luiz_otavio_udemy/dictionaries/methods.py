@@ -45,6 +45,9 @@ print('-' * 50)
 # update - atualiza o dicionário com outro dicionário ou com um iterável de pares
 print('update')
 print('')
+'''
+no update podemos utilizar objetos iteráveis
+'''
 pessoa.update({
     'nome': 'João',
     'idade': 27,
