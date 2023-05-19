@@ -1,6 +1,19 @@
+saldo = 0
+limite = 500
+extrato = []
+numero_saques = 0
+LIMITE_SAQUES = 3
+clientes = []
+contas = []
+agencia = '0001'
+numero_conta = 0
+
 def login(cpf, password):
     if cpf == 'admin' and password == 'admin':
         return 'gerente'
+    elif contas == []:
+        print('Não existem contas cadastradas no sistema!')
+        return
     for conta in contas:
         if cpf == conta['CPF'] and password == conta['password']:
             return conta
@@ -30,15 +43,6 @@ menu_cliente = """
 
 => """
 
-saldo = 0
-limite = 500
-extrato = []
-numero_saques = 0
-LIMITE_SAQUES = 3
-clientes = []
-contas = []
-agencia = '0001'
-numero_conta = 0
 
 
 def sacar(valor, numero_saques, limite_saques, saldo, extrato, limite):
@@ -64,6 +68,7 @@ def depositar(valor, saldo, extrato):
     print('Depósito efetuado com sucesso')
     extrato.append(f'Depósito: R${valor:.2f}')
     print('-' * 100)
+    return saldo
 
 def imprimir_extrato(saldo, extrato):
     if extrato == []:
@@ -112,23 +117,22 @@ def criar_conta_corrente(agencia, numero_conta, clientes, saldo, extrato, limite
     '''
     CPF = input('Digite o cpf do cliente(xxxxxxxxxxx): ')
     for cliente in clientes:
-        # print(cliente['CPF'])
         for key, item in cliente.items():
             if CPF == item:
-                # print(cliente)
                 deseja_depositar = input('Deseja depositar um valor inicial? [s/n]').lower()
                 valor_depositar = 0
                 if deseja_depositar == 's':
                     valor_depositar = float(input('Qual o valor que vc deseja depositar? R$'))
                 saldo_inicial = depositar(valor_depositar, saldo, extrato)
-                saldo = saldo_inicial if saldo_inicial != None else 0
-                password: input('Digite a sua senha: ')
-                while True:
-                    if len(password) < 12:
-                        print('A senha deve ter no mínimo 12 caracteres')
-                        password: input('Digite a sua senha: ')
-                    else:
-                        break
+                saldo = saldo_inicial if saldo_inicial != 0 else 0
+                password = ''
+                print(saldo)
+                while len(password) < 12:
+                    print('A senha deve ter no mínimo 12 caracteres')
+                    password = input('Digite a sua senha: ')
+                    
+                    
+                    
                 cliente['conta[s]'].append({
                     'nome': cliente['nome'],
                     'CPF': cliente['CPF'],
@@ -142,7 +146,7 @@ def criar_conta_corrente(agencia, numero_conta, clientes, saldo, extrato, limite
                     'limite de saques': LIMITE_SAQUES
                 })
                 print(f"Conta para o cliente {cliente['nome']} cadastrada com sucesso! ")
-                print(cliente)
+                # print(cliente)
                 return cliente
         else:
             print('Não existe um cliente com este CPF')
@@ -176,21 +180,26 @@ while True:
         menu = menu_cliente
         print(f'Bem vindo(a) {user["nome"]}!')
         print('-' * 100)
+    else:
+        continue
+    
+    option = input(menu).lower()
     
     if option == 'd':
         valor_depositar = int(input('Qual o valor que vc deseja depositar? R$'))
-        depositar(valor_depositar, saldo, extrato)
+        depositar(valor_depositar, user['saldo'], user['extrato'])
     
     elif option == 's':
         valor_sacar = int(input('Qual valor vc deseja sacar? R$'))
-        if valor_sacar > saldo:
+        print(user)
+        if valor_sacar > user['saldo']:
             print(f'Você não pode sacar este valor, pois seu saldo é apenas de R${saldo:.2f}')
             continue
         
-        sacar(valor=valor_sacar, saldo=saldo, numero_saques=numero_saques, limite_saques=LIMITE_SAQUES, extrato=extrato, limit=limite)
+        sacar(valor=valor_sacar, saldo=user['saldo'], numero_saques=user['número de saques'], limite_saques=user['limite de saques'], extrato=user['extrato'], limit=user['limite'])
         
     elif option == 'e':
-        imprimir_extrato(saldo, extrato=extrato)
+        imprimir_extrato(user['saldo'], extrato=user['extrato'])
         
     elif option == 'u':
         criar_cliente(clientes, contas)
